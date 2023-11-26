@@ -1,0 +1,52 @@
+#!/bin/bash
+export DEBIAN_FRONTEND=noninteractive
+
+# Get public IP address
+IP_ADDRESS=$(curl -s ifconfig.me)
+
+# Update and upgrade
+apt-get update -y
+apt-get upgrade -y
+
+# Install nginx and zip
+apt-get install -y nginx zip
+
+# Create directories
+mkdir -p /etc/nginx/cert
+mkdir -p /var/www/html/.well-known/pki-validation
+
+# Configure firewall
+ufw allow 'Nginx Full'
+ufw allow OpenSSH
+echo "y" | ufw enable
+
+# Configure nginx
+cat << EOF > /etc/nginx/sites-enabled/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+#    listen 443 ssl default_server;
+#    listen [::]:443 ssl default_server;
+#    ssl_certificate /etc/nginx/cert/certificate.crt;
+#    ssl_certificate_key /etc/nginx/cert/private.key;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name $IP_ADDRESS;
+#    if (\$scheme = http) {
+#        return 301 https://\$server_name\$request_uri;
+#    }
+
+    location / {
+
+    }
+}
+EOF
+
+# Restart nginx
+service nginx restart
+
+# Print message
+echo "*N*O*T*E*S* remove # in /etc/nginx/sites-enabled/default after cerificate installed to run in full https"
