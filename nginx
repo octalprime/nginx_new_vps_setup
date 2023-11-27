@@ -1,6 +1,11 @@
 #!/bin/bash
 export DEBIAN_FRONTEND=noninteractive
 
+# Define some colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
 # Get public IP address
 IP_ADDRESS=$(curl -s ifconfig.me)
 
@@ -49,4 +54,4 @@ EOF
 service nginx restart
 
 # Print message
-echo "*N*O*T*E*S* remove # in /etc/nginx/sites-enabled/default after cerificate installed to run in full https"
+echo -e "${RED}*N*O*T*E*S*${NC} remove # in ${GREEN}/etc/nginx/sites-enabled/default${NC} after cerificate installed to run in full https"
