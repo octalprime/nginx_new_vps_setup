@@ -55,3 +55,5 @@ service nginx restart
 
 # Print message
 echo -e "${RED}*N*O*T*E*S*${NC} remove # in ${GREEN}/etc/nginx/sites-enabled/default${NC} after cerificate installed to run in full https"
+echo ""
+echo ""
